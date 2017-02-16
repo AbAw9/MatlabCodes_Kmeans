@@ -1,0 +1,44 @@
+% Calculates shortest distance from node 'i' to all other nodes.
+% function D = shortest_from(A,i,B)
+clc
+clear
+A=[0     0     0     0     0     0     1     1     1     1     1
+   0     0     1     1     1     1     1     0     0     0     0
+   0     1     0     1     1     1     1     0     0     0     0
+   0     1     1     0     1     1     1     0     0     0     0
+   0     1     1     1     0     1     1     0     0     0     0
+   0     1     1     1     1     0     1     0     0     0     0
+   1     1     1     1     1     1     0     0     0     0     0
+   1     0     0     0     0     0     0     0     1     1     1
+   1     0     0     0     0     0     0     1     0     1     1
+   1     0     0     0     0     0     0     1     1     0     1
+   1     0     0     0     0     0     0     1     1     1     0];
+% B=[2 3 4 5 6 1 7 8 9 10 11];
+% n=11;
+% i=7;
+% Q=graphallshortestpaths(sparse(A));
+
+n=length(A);D=zeros(n,n);
+for i=1:n
+    Q=inf(1,n);Q(i)=0;
+    for j=1:n
+        P=[Q;1:n];
+        [X Y]=sort(P(1,:));
+        P(1,:)=X;
+        P(2,:)=Y;
+        minp=P(2,j);
+        for m=1:n
+            if(A(minp,m)~=0)&&(Q(m)>Q(minp)+A(minp,m))
+                Q(m)=Q(minp)+A(minp,m);
+            end
+        end
+    end
+    D(i,:)=Q;
+end
+D
+D(D==inf)=0
+
+
+% 
+% L=Q(i,:)';
+% D=L(B);
